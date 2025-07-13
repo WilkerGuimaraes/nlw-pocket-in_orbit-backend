@@ -15,7 +15,6 @@
   },
   "javascript": {
     "formatter": {
-      "arrowParentheses": "asNeeded",
       "jsxQuoteStyle": "double",
       "quoteStyle": "single",
       "semicolons": "asNeeded",
