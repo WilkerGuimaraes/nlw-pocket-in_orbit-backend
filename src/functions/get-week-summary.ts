@@ -64,7 +64,7 @@ export async function getWeekSummary() {
     {
       id: string
       title: string
-      completed: string
+      completedAt: string
     }[]
   >
 
