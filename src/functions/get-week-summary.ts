@@ -20,7 +20,7 @@ export async function getWeekSummary({ userId }: GetWeekSummaryRequest) {
         createdAt: goals.createdAt,
       })
       .from(goals)
-      .where(and(lte(goals.createdAt, lastDayOfWeek), eq(goals.id, userId)))
+      .where(and(lte(goals.createdAt, lastDayOfWeek), eq(goals.userId, userId)))
   )
 
   const goalsCompletedInWeek = db.$with('goal_completion_counts').as(
@@ -39,7 +39,7 @@ export async function getWeekSummary({ userId }: GetWeekSummaryRequest) {
         and(
           gte(goalCompletions.createdAt, firstDayOfWeek),
           lte(goalCompletions.createdAt, lastDayOfWeek),
-          eq(goals.id, userId)
+          eq(goals.userId, userId)
         )
       )
       .orderBy(desc(goalCompletions.createdAt))
@@ -48,7 +48,7 @@ export async function getWeekSummary({ userId }: GetWeekSummaryRequest) {
   const goalsCompletedByWeekDay = db.$with('goals_completed_by_week_day').as(
     db
       .select({
-        completedDate: goalsCompletedInWeek.completedAtDate,
+        completedAtDate: goalsCompletedInWeek.completedAtDate,
         completions: sql`
                 JSON_AGG(
                     JSON_BUILD_OBJECT(
@@ -85,7 +85,7 @@ export async function getWeekSummary({ userId }: GetWeekSummaryRequest) {
         ),
       goalsPerDay: sql<GoalsPerDay>`
             JSON_OBJECT_AGG(
-                ${goalsCompletedByWeekDay.completedDate},
+                ${goalsCompletedByWeekDay.completedAtDate},
                 ${goalsCompletedByWeekDay.completions}
             )
         `,
