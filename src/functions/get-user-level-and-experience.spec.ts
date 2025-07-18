@@ -4,7 +4,7 @@ import {
   calculateLevelFromExperience,
   calculateTotalExperienceForLevel,
 } from '../modules/gamification'
-import { getUserLevelExperience } from './get-user-level-and-experience'
+import { getUserLevelAndExperience } from './get-user-level-and-experience'
 
 describe('get user level and experience', () => {
   it('should be able to get a user level and experience', async () => {
@@ -12,7 +12,7 @@ describe('get user level and experience', () => {
       experience: 200,
     })
 
-    const sut = await getUserLevelExperience({ userId: user.id })
+    const sut = await getUserLevelAndExperience({ userId: user.id })
 
     const level = calculateLevelFromExperience(200)
 
